@@ -1,14 +1,15 @@
-#include "SkpWifiCommon.h"
+#include "SkpCommon.h"
 #include <Arduino.h>
 #include <WiFi.h>
-#include <HTTPClient.h>
 #include "SkpUtil.h"
 
-#define SSID "ISSWF1"
-#define PASS "xstudent25isswf100"
+#define SSID "TP-LINK_141FD8"//"ISSWF1"
+#define PASS "matisek474"//"xstudent25isswf100"
 #define RETRY_COUNT 15
 
-static String emptyStr = String();
+const char *MIME_HTML = "text/html";
+const char *MIME_PLAIN = "text/plain";
+const char *MIME_JSON = "application/json";
 
 bool skp_tryConnect()
 {
@@ -27,6 +28,7 @@ bool skp_tryConnect()
             return false;
         }
         Serial.print(".");
+        count++;
         delay(1000);
     }
     Serial.print("Connected: ");
@@ -34,6 +36,10 @@ bool skp_tryConnect()
     return true;
 }
 
+void skp_initSerial()
+{
+    Serial.begin(115200);
+}
 
 String skp_serializeData(const skp_data *data)
 {

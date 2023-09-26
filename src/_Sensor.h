@@ -1,17 +1,47 @@
 #include "SkpChip.h"
 #include <Arduino.h>
+#include <HTTPClient.h>
+#include <AsyncUDP.h>
+#include "SkpUtil.h"
+
+#ifndef SENSOR_ID
+#define SENSOR_ID 0
+#warning SENSOR_ID not defined, assuming 0
+#endif
+
+static HTTPClient http;
+static AsyncUDP udp;
+
+static String endpoint = emptyString;
 
 void setup()
 {
-    Serial.begin(115200);
-    while (!skp_tryConnect())
+    Serial.println("Running as Sensor");
+
+    if (!udp.listenMulticast(IPAddress(239,255,5,5), 8001))
     {
-        Serial.println("Retrying!");
-        delay(5000);
+        skp_log_error("Nobody is here :(");
+        skp_halt();
     }
+    
+    udp.onPacket([] (AsyncUDPPacket& packet) {
+        if (!packet.isBroadcast())
+        {
+            return;
+        }
+
+        Serial.println("OMG HAIIIII :3");
+        endpoint = packet.readString();
+    });
 }
 
 void loop()
 {
-    delay(100);
+    if (!endpoint.isEmpty())
+    {
+        Serial.println("FOund you!");
+        Serial.println(endpoint);
+        skp_halt();
+    }
+    delay(5000);
 }

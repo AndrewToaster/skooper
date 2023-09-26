@@ -1,6 +1,11 @@
 #include <Arduino.h>
+#include "SkpCommon.h"
 
-#define TYPE_SERVER
+// Little bit of macro fuckery to 'Rename' the main functions
+#define setup _setup
+#define loop _loop
+
+//#define TYPE_SERVER
 
 #if defined(TYPE_SERVER)
 #include "_Server.h"
@@ -10,3 +15,26 @@
 #endif
 #include "_Sensor.h"
 #endif
+
+// Now we can undefine the macros so we can use the normal main function names
+#undef setup
+#undef loop
+
+void setup() 
+{
+    skp_initSerial();
+    while (!skp_tryConnect())
+    {
+        Serial.println("Retrying!");
+        delay(5000);
+    }
+
+    // Call the setup function of either _Server.h or _Sensor.h
+    _setup();
+}
+
+void loop()
+{
+    // Call the setup function of either _Server.h or _Sensor.h
+    _loop();
+}

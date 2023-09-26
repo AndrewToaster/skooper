@@ -1,4 +1,4 @@
-#include "SkpWifiCommon.h"
+#include "SkpCommon.h"
 #include <AsyncTCP.h>
 #include <ESPAsyncWebServer.h>
 #include <SPIFFS.h>
@@ -9,23 +9,14 @@ static AsyncWebServer server(80);
 
 static skp_data sensors[3];
 
-static const char *MIME_HTML = "text/html";
-static const char *MIME_PLAIN = "text/plain";
-static const char *MIME_JSON = "application/json";
-
 void setup()
 {
+    Serial.println("Running as Server");
+
     sensors[0] = (skp_data) {
         .temp = 20,
         .hum = 50
     };
-
-    Serial.begin(115200);
-    while (!skp_tryConnect())
-    {
-        Serial.println("Retrying!");
-        delay(5000);
-    }
 
     //File index, sensor;
 
@@ -51,6 +42,7 @@ void setup()
             return;
         }
 
+        // We **REALLY** don't want to have buffer overflows in C++
         auto indexArg = req->arg("index");
         int index = indexArg.toInt();
         if (index < 0 || index > sizeof(sensors) - 1)
@@ -59,7 +51,18 @@ void setup()
             return;
         }
 
-        req->send(200, MIME_JSON, skp_serializeData(&sensors[index]));
+        // There should be some proper parsing of the numbers, however for now this is ok
+        auto tempArg = req->arg("temp");
+        float temp = tempArg.toFloat();
+
+        //TODO: Most likely humidity of 0% is not possible, therefore there could be error handling using that?
+        auto humArg = req->arg("hum");
+        float hum = humArg.toFloat();
+
+        sensors[index].temp = temp;
+        sensors[index].hum = hum;
+
+        req->send(200, MIME_PLAIN, emptyString);
     });
 
     server.on("/get", [] (AsyncWebServerRequest *req) {
@@ -69,6 +72,7 @@ void setup()
             return;
         }
 
+        // We **REALLY** don't want to have buffer overflows in C++
         auto indexArg = req->arg("index");
         int index = indexArg.toInt();
         if (index < 0 || index > sizeof(sensors) - 1)
