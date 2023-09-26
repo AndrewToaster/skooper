@@ -5,3 +5,8 @@ void _skp_log_error(const char *message, const char *file, const char *func, con
 {
     Serial.printf("[Error] %s at %s:%i > %s", func, file, line, message);
 }
+
+void skp_halt()
+{
+    while (true) delay(100);
+}

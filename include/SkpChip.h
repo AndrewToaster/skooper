@@ -3,7 +3,6 @@
 
 #include "SkpWifiCommon.h"
 
-bool skp_sendData(const skp_data *data);
 bool skp_readData(skp_data *data);
 
 #endif
