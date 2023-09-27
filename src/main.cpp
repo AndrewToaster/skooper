@@ -5,12 +5,14 @@
 #define setup _setup
 #define loop _loop
 
-//#define TYPE_SERVER
+#define TYPE_SERVER
 
 #if defined(TYPE_SERVER)
+#define _TYPE "SERVER"
 #include "_Server.h"
 #else
 #ifndef TYPE_SENSOR
+#define _TYPE "SENSOR"
 #warning Neither TYPE_SERVER nor TYPE_SENSOR was defined, assuming TYPE_SENSOR
 #endif
 #include "_Sensor.h"
@@ -23,6 +25,8 @@
 void setup() 
 {
     skp_initSerial();
+    Serial.println("Running as " _TYPE);
+
     while (!skp_tryConnect())
     {
         Serial.println("Retrying!");

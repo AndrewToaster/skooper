@@ -35,7 +35,7 @@ void setup()
     server.serveStatic("/", SPIFFS, "/")
         .setDefaultFile("index.html");
 
-    server.on("/update", HTTP_POST, [] (AsyncWebServerRequest *req) {
+    server.on("/update", HTTP_GET, [] (AsyncWebServerRequest *req) {
         if (!req->hasArg("index"))
         {
             req->send(400, MIME_PLAIN, "Missing index param");

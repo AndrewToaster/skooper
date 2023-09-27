@@ -7,7 +7,7 @@ typedef struct skp_data
 {
     float temp;
     float hum;
-    //float pres;
+    float pres;
 } skp_data;
 
 bool skp_tryConnect();

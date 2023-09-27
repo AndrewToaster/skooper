@@ -3,8 +3,8 @@
 #include <WiFi.h>
 #include "SkpUtil.h"
 
-#define SSID "TP-LINK_141FD8"//"ISSWF1"
-#define PASS "matisek474"//"xstudent25isswf100"
+#define SSID "ISSWF1"
+#define PASS "xstudent25isswf100"
 #define RETRY_COUNT 15
 
 const char *MIME_HTML = "text/html";
@@ -53,8 +53,8 @@ String skp_serializeData(const skp_data *data)
     // This is a very lazy way to do this, but it's fine for now
     String payload = "{ \"temperature\": ";
     payload += data->temp;
-    //payload += ", \"pressure\": ";
-    //payload += data->pres;
+    payload += ", \"pressure\": ";
+    payload += data->pres;
     payload += ", \"humidity\": ";
     payload += data->hum;
     payload += "}";
