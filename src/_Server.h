@@ -12,11 +12,16 @@ static skp_data sensors[3];
 void setup()
 {
     Serial.println("Running as Server");
-
-    sensors[0] = (skp_data) {
-        .temp = 20,
-        .hum = 50
-    };
+    
+    for (size_t i = 0; i < sizeof(sensors) / sizeof(skp_data); i++)
+    {
+        sensors[i] = (skp_data) {
+            .temp = NAN,
+            .hum = NAN,
+            .pres = NAN
+        };
+    }
+    
 
     //File index, sensor;
 
@@ -45,7 +50,7 @@ void setup()
         // We **REALLY** don't want to have buffer overflows in C++
         auto indexArg = req->arg("index");
         int index = indexArg.toInt();
-        if (index < 0 || index > sizeof(sensors) - 1)
+        if (index < 0 || index > sizeof(sensors) / sizeof(skp_data) - 1)
         {
             req->send(404, MIME_PLAIN, "Not found with index param");
             return;
@@ -59,8 +64,12 @@ void setup()
         auto humArg = req->arg("hum");
         float hum = humArg.toFloat();
 
+        auto presArg = req->arg("pres");
+        float pres = humArg.toFloat();
+
         sensors[index].temp = temp;
         sensors[index].hum = hum;
+        sensors[index].pres = pres;
 
         req->send(200, MIME_PLAIN, emptyString);
     });
@@ -75,7 +84,7 @@ void setup()
         // We **REALLY** don't want to have buffer overflows in C++
         auto indexArg = req->arg("index");
         int index = indexArg.toInt();
-        if (index < 0 || index > sizeof(sensors) - 1)
+        if (index < 0 || index > sizeof(sensors) / sizeof(skp_data) - 1)
         {
             req->send(404, MIME_PLAIN, "Not found with index param");
             return;
