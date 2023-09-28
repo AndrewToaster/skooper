@@ -3,8 +3,6 @@
 #include <WiFi.h>
 #include "SkpUtil.h"
 
-#define SSID "ISSWF1"
-#define PASS "xstudent25isswf100"
 #define RETRY_COUNT 15
 
 const char *MIME_HTML = "text/html";
@@ -16,7 +14,7 @@ bool skp_tryConnect()
     WiFi.disconnect(false, false);
     WiFi.setAutoReconnect(true);
     WiFi.mode(WIFI_STA);
-    WiFi.begin(SSID, PASS);
+    WiFi.begin(WF_SSID, WF_PASS);
     Serial.print("Connecting to wifi ");
     int count = 0;
     while (WiFi.status() != WL_CONNECTED)

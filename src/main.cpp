@@ -1,3 +1,5 @@
+#define SKP_LOG_LEVEL 3
+
 #include <Arduino.h>
 #include "SkpCommon.h"
 
@@ -5,16 +7,17 @@
 #define setup _setup
 #define loop _loop
 
-#define TYPE_SERVER
+//#define TYPE_SERVER
+#define TYPE_SENSOR
 
-#if defined(TYPE_SERVER)
+#ifdef TYPE_SERVER
 #define _TYPE "SERVER"
 #include "_Server.h"
 #else
 #ifndef TYPE_SENSOR
-#define _TYPE "SENSOR"
 #warning Neither TYPE_SERVER nor TYPE_SENSOR was defined, assuming TYPE_SENSOR
 #endif
+#define _TYPE "SENSOR"
 #include "_Sensor.h"
 #endif
 
