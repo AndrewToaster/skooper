@@ -1,10 +1,3 @@
-<style>
-    img[alt=cpp],
-    img[alt=py],
-    img[alt=icon]
-    { height: 64px; }
-</style>
-
 # Skooper
 Welcome to the 4 days rush to pull this off, here's the finished work
 
