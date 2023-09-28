@@ -15,7 +15,7 @@
 
 static Adafruit_BME280 bme;
 static HTTPClient http;
-static AsyncUDP udp;
+//static AsyncUDP udp;
 
 static String ip;
 
