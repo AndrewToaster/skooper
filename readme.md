@@ -20,8 +20,8 @@ Welcome to the 4 days rush to pull this off, here's the finished work
 ## Resources
 ### Frontend
 #### Languages
-![icon](https://upload.wikimedia.org/wikipedia/commons/6/61/HTML5_logo_and_wordmark.svg)
-![icon](https://upload.wikimedia.org/wikipedia/commons/d/d5/CSS3_logo_and_wordmark.svg)
+![icon](https://upload.wikimedia.org/wikipedia/commons/6/61/HTML5_logo_and_wordmark.svg|width=100px)
+![icon](https://upload.wikimedia.org/wikipedia/commons/d/d5/CSS3_logo_and_wordmark.svg|width=100px)
 ![icon](https://upload.wikimedia.org/wikipedia/commons/b/ba/Javascript_badge.svg)
 #### Tools
 [![icon](https://www.webnode.com/favicon.ico)](https://www.webnode.com/)
