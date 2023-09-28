@@ -1,0 +1,81 @@
+%%{
+  init: {
+    'theme': 'dark',
+    'themeVariables': {
+      'primaryColor': '#0f000f',
+      'primaryTextColor': '#ffffff',
+      'primaryBorderColor': '#7C0000',
+      'lineColor': '#F8B229',
+      'secondaryColor': '#006100'
+    }
+  }
+}%%
+stateDiagram-v2
+    %%[*] --> _Sensor
+    state "Chip" as _Sensor {
+        state if1 <<choice>>
+        ReadSensorData: Read sensor data
+        CheckIP: Check remote IP address
+        ReadIP: Download remote IP address
+        SendData: Send sensor data
+        Serial --> Wifi
+        Wifi --> Wifi: Failed to connect
+        Wifi --> Sensor
+        Sensor --> [*]: Failed to connect
+        Sensor --> if1
+        if1 --> ReadIP: Every minute
+        ReadIP --> CheckIP
+        CheckIP --> if1: Invalid IP
+        if1 --> CheckIP
+        CheckIP --> ReadSensorData
+        ReadSensorData --> SendData
+        SendData --> if1
+    }
+    
+    state "Server" as _Server {
+        state if2 <<choice>>
+        Index: Serve static files
+        Wifi1: Wifi
+        Serial1: Serial
+        API: Handle API requests
+        StartWeb: Start web server
+        InitWeb: Setup web server
+        Spiffs: SPIFFs file system
+        UpdateIP: Update remote IP address
+
+        Serial1 --> Spiffs
+        Spiffs --> [*]: Failed to load
+        Wifi1 --> Wifi1: Failed to connect
+        Spiffs --> Wifi1
+        Wifi1 --> InitWeb
+        InitWeb --> StartWeb
+        StartWeb --> if2
+        if2 --> UpdateIP: Every 5 minutes
+        if2 --> Index
+        UpdateIP --> Index
+        Index --> API
+        API --> if2
+    }
+        state "API" as _API {
+            direction LR
+            state "Get" as Get {
+                ReadData: Read stored sensor data
+                ReadData --> Respond
+            }
+            state "Update" as Update {
+                ReadPayload: Read sent sensor data
+                UpdateData: Update stored sensor data
+                ReadPayload --> UpdateData
+            }
+        }
+
+    state "Website" as Site {
+        state Loop <<choice>>
+        LoadData: Load Website files
+        FetchData: Fetch sensor data
+        Delay: Wait 5 seconds
+        LoadData --> Loop
+        Loop --> FetchData
+        FetchData --> Delay
+        Delay --> Loop
+    }

@@ -1,0 +1,34 @@
+%%{
+  init: {
+    'theme': 'base',
+    'themeVariables': {
+      'primaryColor': '#0f000f',
+      'primaryTextColor': '#fff',
+      'primaryBorderColor': '#7C0000',
+      'lineColor': '#F8B229',
+      'secondaryColor': '#006100',
+      'tertiaryColor': '#fff'
+    }
+  }
+}%%
+sequenceDiagram
+    critical
+        loop Every 5 minutes
+            Server->>+Github: Update IP
+            Github-->>-Server: OK
+        end
+        loop Every 1 minutes
+            Chip->>+Github: Request IP
+            Github-->>-Chip: Send IP
+        end
+    end
+    loop Every 5 seconds
+        Chip->>+Server: Update values
+        Server-->>-Chip: OK
+    end
+    Client->>+Server: Request Website
+    Server-->>-Client: Send files
+    loop Every 5 seconds
+        Client->>+Server: Request values
+        Server-->>-Client: Return values
+    end
