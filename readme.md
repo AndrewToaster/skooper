@@ -14,7 +14,6 @@ Welcome to the 4 days rush to pull this off, here's the finished work
 ### Frontend
 #### Languages
 <img src="https://upload.wikimedia.org/wikipedia/commons/6/61/HTML5_logo_and_wordmark.svg" width="64">
-<img src="https://upload.wikimedia.org/wikipedia/commons/6/61/HTML5_logo_and_wordmark.svg" width="64">
 <img src="https://upload.wikimedia.org/wikipedia/commons/d/d5/CSS3_logo_and_wordmark.svg" width="64">
 <img src="https://upload.wikimedia.org/wikipedia/commons/b/ba/Javascript_badge.svg" width="64">
 
