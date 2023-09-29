@@ -4,7 +4,7 @@
     'themeVariables': {
       'primaryColor': '#0f000f',
       'primaryTextColor': '#fff',
-      'primaryBorderColor': '#7C0000',
+      'primaryBorderColor': '#5f5f5f',
       'lineColor': '#F8B229',
       'secondaryColor': '#006100',
       'tertiaryColor': '#fff'
@@ -12,6 +12,12 @@
   }
 }%%
 sequenceDiagram
+    box rgba(50,50,50,255)
+        participant Server
+        participant Chip
+        participant Github
+        participant Client
+    end
     critical
         loop Every 5 minutes
             Server->>+Github: Update IP
